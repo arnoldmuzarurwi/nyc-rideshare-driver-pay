@@ -1,3 +1,14 @@
+/*
+  01: Database schema
+  Purpose:  Create the rideshare database as a star schema: one fact
+            table of trips and two lookup tables.
+  Method:   CREATE TABLE statements with primary keys, foreign keys
+            from fact_trip to both lookups, and an is_valid flag.
+  Tables:   dim_company, dim_zone, fact_trip
+  Result:   3 tables, later loaded with 2 companies, 265 zones and
+            2,400,067 trips.
+*/
+
 CREATE DATABASE IF NOT EXISTS rideshare;
 
 USE rideshare;
@@ -40,4 +51,3 @@ CREATE TABLE fact_trip (
     FOREIGN KEY (pu_location_id) REFERENCES dim_zone(location_id),
     FOREIGN KEY (do_location_id) REFERENCES dim_zone(location_id)
 );
-

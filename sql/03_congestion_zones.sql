@@ -1,3 +1,14 @@
+/*
+  03: Congestion zones
+  Purpose:  Mark which taxi zones are inside the congestion pricing area.
+  Method:   A zone counts as inside when at least 90% of its same-zone
+            2025 trips paid the congestion fee.
+  Tables:   fact_trip, dim_zone
+  Result:   37 Manhattan zones marked in_cbd = 1. Lincoln Square East
+            (zone 142, 52% charged) left out because it straddles
+            60th Street.
+*/
+
 USE rideshare;
 
 -- Preview: zones where most same-zone trips in 2025 paid the congestion fee

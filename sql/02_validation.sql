@@ -1,3 +1,14 @@
+/*
+  02: Data validation
+  Purpose:  Find impossible or suspicious trips before any analysis.
+  Method:   Count each kind of problem in one query, then flag the
+            impossible trips with is_valid = 0 instead of deleting them.
+  Tables:   fact_trip
+  Result:   528 trips flagged (296 zero or negative miles, 227 negative
+            fares, 5 negative driver pay), 0.02% of 2,400,067. Long
+            trips (180 over 100 miles, 12 over 4 hours) kept as real.
+*/
+
 USE rideshare;
 
 -- Data quality checks: each column counts how many trips have that problem
