@@ -1,0 +1,5 @@
+company_name,trip_type,mph_2024,mph_2025,change_mph,trips
+Lyft,zone,14.38,14.52,0.14,222082
+Lyft,other,15.69,15.42,-0.27,416280
+Uber,zone,14.35,15.26,0.91,597425
+Uber,other,15.94,16.05,0.11,1163752
