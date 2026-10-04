@@ -1,6 +1,9 @@
 /*
   Q1: Baseline driver share of fare
   Question: How much of each fare reaches the driver, by company and month?
+  Method:   Divide total driver pay by total base fare for each company
+            and month, then compare each month to the one before it
+            with LAG().
   Tables:   fact_trip, dim_company
   Answer:   Lyft drivers kept 77.7% to 81.2% of base fares, and their share
             rose every month in both years. Uber drivers kept 71.9% to 78.8%,
