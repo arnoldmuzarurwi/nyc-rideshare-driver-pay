@@ -1,0 +1,9 @@
+company,measure,effect,std_error,ci_low,ci_high,p_value
+Lyft,Speed (mph),0.41,0.056,0.3,0.52,2.737451064202197e-13
+Lyft,Base fare ($),-0.42,0.101,-0.61,-0.22,3.662738429580231e-05
+Lyft,"Base fare, same distance ($)",-0.02,0.045,-0.11,0.06,0.5862693083277833
+Lyft,Driver pay per hour ($),0.89,0.101,0.69,1.08,1.272187712566056e-18
+Uber,Speed (mph),0.79,0.035,0.73,0.86,6.990582449748443e-114
+Uber,Base fare ($),3.07,0.079,2.92,3.23,0.0
+Uber,"Base fare, same distance ($)",2.25,0.041,2.17,2.33,0.0
+Uber,Driver pay per hour ($),2.94,0.074,2.79,3.08,0.0
