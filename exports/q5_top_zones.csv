@@ -1,0 +1,51 @@
+borough,zone_rank,location_id,zone,trips,pay_per_hour
+Bronx,1,200,"Riverdale/North Riverdale/Fieldston",2480,69.45
+Bronx,2,240,"Van Cortlandt Park",803,65.99
+Bronx,3,183,"Pelham Bay",1462,65.81
+Bronx,4,208,"Schuylerville/Edgewater Park",3908,65.37
+Bronx,5,259,Woodlawn/Wakefield,4015,65.32
+Bronx,6,220,"Spuyten Duyvil/Kingsbridge",4265,63.90
+Bronx,7,51,"Co-Op City",4593,63.12
+Bronx,8,81,Eastchester,3409,62.54
+Bronx,9,212,Soundview/Bruckner,3222,62.06
+Bronx,10,241,"Van Cortlandt Village",4702,61.64
+Brooklyn,1,11,"Bath Beach",1376,63.44
+Brooklyn,2,150,"Manhattan Beach",1321,63.43
+Brooklyn,3,55,"Coney Island",3187,63.19
+Brooklyn,4,14,"Bay Ridge",6527,62.59
+Brooklyn,5,33,"Brooklyn Heights",5530,62.33
+Brooklyn,6,34,"Brooklyn Navy Yard",952,61.79
+Brooklyn,7,66,"DUMBO/Vinegar Hill",4497,61.74
+Brooklyn,8,54,"Columbia Street",694,61.71
+Brooklyn,9,108,Gravesend,1687,61.53
+Brooklyn,10,29,"Brighton Beach",2387,61.34
+Manhattan,1,13,"Battery Park City",5223,68.86
+Manhattan,2,88,"Financial District South",2932,68.76
+Manhattan,3,230,"Times Sq/Theatre District",14285,68.16
+Manhattan,4,161,"Midtown Center",14090,66.79
+Manhattan,5,261,"World Trade Center",4243,66.75
+Manhattan,6,163,"Midtown North",9589,66.48
+Manhattan,7,231,"TriBeCa/Civic Center",13362,66.33
+Manhattan,8,209,Seaport,2485,66.29
+Manhattan,9,162,"Midtown East",9393,66.03
+Manhattan,10,87,"Financial District North",6965,65.80
+Queens,1,132,"JFK Airport",20700,77.58
+Queens,2,138,"LaGuardia Airport",23040,74.36
+Queens,3,201,"Rockaway Park",688,71.97
+Queens,4,101,"Glen Oaks",1149,71.23
+Queens,5,64,Douglaston,827,70.77
+Queens,6,19,Bellerose,1154,69.69
+Queens,7,15,"Bay Terrace/Fort Totten",823,68.91
+Queens,8,16,Bayside,2401,68.64
+Queens,9,175,"Oakland Gardens",949,67.75
+Queens,10,252,Whitestone,1552,67.40
+"Staten Island",1,44,Charleston/Tottenville,517,79.25
+"Staten Island",2,23,"Bloomfield/Emerson Hill",1855,70.47
+"Staten Island",3,109,"Great Kills",830,68.07
+"Staten Island",4,251,Westerleigh,910,68.03
+"Staten Island",5,187,"Port Richmond",952,67.38
+"Staten Island",6,118,"Heartland Village/Todt Hill",1221,67.28
+"Staten Island",7,156,"Mariners Harbor",1674,67.13
+"Staten Island",8,6,"Arrochar/Fort Wadsworth",667,66.54
+"Staten Island",9,214,"South Beach/Dongan Hills",1043,66.19
+"Staten Island",10,115,"Grymes Hill/Clifton",1033,66.14
