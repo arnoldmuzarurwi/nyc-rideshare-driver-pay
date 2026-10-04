@@ -9,12 +9,14 @@
   Tables:   fact_trip, dim_company, dim_zone
   Answer:   Uber zone riders did; Lyft zone riders paid about the fee.
             Uber zone base fares rose $3.07 more than other fares, on
-            top of a $1.49 average fee. About half of that came from
-            longer zone trips (5.40 to 5.64 miles), so at the same
-            distance Uber zone riders paid about $3.00 extra, roughly
-            double the fee. Lyft zone fares fell only because zone trips
-            got shorter (5.61 to 5.37 miles). Per mile, Lyft zone prices
-            rose slightly more than elsewhere, about $1.75 extra in all.
+            top of a $1.49 average fee. Part of that came from longer
+            zone trips (5.40 to 5.64 miles). Holding distance fixed in
+            a regression (notebooks/congestion_test.ipynb), the extra
+            is $2.25, so Uber zone riders paid about $3.74 more per
+            trip, about 2.5 times the fee. Lyft zone fares fell only
+            because zone trips got shorter (5.61 to 5.37 miles); at the
+            same distance the change is zero (p = 0.59), so Lyft zone
+            riders paid about the fee alone.
 */
 
 USE rideshare;
