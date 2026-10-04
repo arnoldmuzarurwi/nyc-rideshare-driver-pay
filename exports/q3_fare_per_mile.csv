@@ -1,0 +1,9 @@
+company_name,trip_type,period,avg_miles,fare_per_mile
+Lyft,zone,pre,5.61,5.15
+Lyft,zone,post,5.37,5.26
+Lyft,other,pre,4.67,4.80
+Lyft,other,post,4.56,4.87
+Uber,zone,pre,5.40,5.92
+Uber,zone,post,5.64,6.37
+Uber,other,pre,4.74,4.64
+Uber,other,post,4.74,4.83
