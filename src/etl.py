@@ -2,10 +2,15 @@
 ETL script: download NYC TLC High Volume For-Hire Vehicle (HVFHV) trip files,
 keep Uber and Lyft trips, draw a 2% random sample, and save it.
 
+Periods: 2023 = "base" (placebo months), 2024 = "pre", 2025 = "post"
+(congestion pricing began Jan 2025).
+
 Run from the project root:
-    python3 src/etl.py
+    python3 src/etl.py            # Feb-Apr 2024 and 2025 -> row_counts.csv
+    python3 src/etl.py --placebo  # Feb-Apr 2023 placebo months only -> row_counts_2023.csv
 """
 
+import argparse
 import urllib.request
 from pathlib import Path
 
@@ -27,6 +32,13 @@ BASE_URL = "https://d37ci6vzurychx.cloudfront.net"
 # Months to process: (year, month). 2024 = "pre" period, 2025 = "post" period.
 # Feb-Apr in both years gives a like-for-like seasonal comparison.
 MONTHS = [(2024, 2), (2024, 3), (2024, 4), (2025, 2), (2025, 3), (2025, 4)]
+
+# Placebo months (run with --placebo): Feb-Apr 2023, the "base" period, processed
+# with exactly the same method as MONTHS.
+PLACEBO_MONTHS = [(2023, 2), (2023, 3), (2023, 4)]
+
+# Period label for each year. Any other year is an error, never labelled silently.
+PERIOD_BY_YEAR = {2023: "base", 2024: "pre", 2025: "post"}
 
 # Reference files (zone names and zone boundaries) that go in data/raw/ too.
 REFERENCE_FILES = ["misc/taxi_zone_lookup.csv", "misc/taxi_zones.zip"]
@@ -70,12 +82,20 @@ def download(url_path: str) -> Path:
 # Step 2: filter + sample one monthly file
 # ---------------------------------------------------------------------------
 
+def period_label(year: int) -> str:
+    """Return the period label for a year (2023 base, 2024 pre, 2025 post) or raise."""
+    if year not in PERIOD_BY_YEAR:
+        raise ValueError(f"no period label defined for year {year}; expected one of {sorted(PERIOD_BY_YEAR)}")
+    return PERIOD_BY_YEAR[year]
+
+
 def process_month(year: int, month: int) -> dict:
     """Read one month in chunks, filter to Uber/Lyft, sample 2%, save, return row counts."""
+    period = period_label(year)  # fail before downloading anything for an unknown year
     raw_path = download(f"trip-data/fhvhv_tripdata_{year}-{month:02d}.parquet")
     parquet = pq.ParquetFile(raw_path)
 
-    # cbd_congestion_fee only exists in 2025 files. Read only the columns that exist;
+    # cbd_congestion_fee only exists in 2025 files (not 2023 or 2024). Read only the columns that exist;
     # the missing one is filled with 0 below.
     available = set(parquet.schema_arrow.names)
     read_cols = [c for c in COLUMNS if c in available]
@@ -101,13 +121,13 @@ def process_month(year: int, month: int) -> dict:
 
     sample = pd.concat(sampled_parts, ignore_index=True)
 
-    # 2024 files have no cbd_congestion_fee (NYC congestion pricing began Jan 2025): use 0.
+    # 2023 and 2024 files have no cbd_congestion_fee (NYC congestion pricing began Jan 2025): use 0.
     if "cbd_congestion_fee" not in sample.columns:
         sample["cbd_congestion_fee"] = 0.0
     sample["cbd_congestion_fee"] = sample["cbd_congestion_fee"].fillna(0)
 
-    # Label the period: 2024 = before congestion pricing, 2025 = after.
-    sample["period"] = "pre" if year == 2024 else "post"
+    # Label the period: 2023 = base (placebo), 2024 = before congestion pricing, 2025 = after.
+    sample["period"] = period
 
     # Keep column order identical across all months.
     sample = sample[COLUMNS + ["period"]]
@@ -128,24 +148,31 @@ def process_month(year: int, month: int) -> dict:
 # Main
 # ---------------------------------------------------------------------------
 
-def main():
+def main(placebo: bool = False):
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Zone lookup CSV and zone shapefile (not sampled, just downloaded).
-    for ref in REFERENCE_FILES:
-        download(ref)
+    if placebo:
+        months, counts_file = PLACEBO_MONTHS, "row_counts_2023.csv"
+    else:
+        months, counts_file = MONTHS, "row_counts.csv"
+        # Zone lookup CSV and zone shapefile (not sampled, just downloaded).
+        for ref in REFERENCE_FILES:
+            download(ref)
 
     # Process each monthly trip file and collect its row counts.
-    counts = [process_month(year, month) for year, month in MONTHS]
+    counts = [process_month(year, month) for year, month in months]
 
     # Summary table of row counts, printed and saved.
     table = pd.DataFrame(counts)
     print("\nRow counts per month:")
     print(table.to_string(index=False, formatters={
         c: "{:,}".format for c in table.columns if c != "month"}))
-    table.to_csv(PROCESSED_DIR / "row_counts.csv", index=False)
+    table.to_csv(PROCESSED_DIR / counts_file, index=False)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--placebo", action="store_true",
+                        help="process only the Feb-Apr 2023 placebo months (period = base)")
+    main(placebo=parser.parse_args().placebo)
