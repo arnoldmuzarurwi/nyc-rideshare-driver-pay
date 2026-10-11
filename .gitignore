@@ -17,3 +17,6 @@ env/
 .AppleDouble
 .LSOverride
 ._*
+
+# Tableau temporary lock files
+.~*
