@@ -1,6 +1,6 @@
 # NYC Rideshare Driver Pay and Congestion Pricing
 
-**Congestion pricing:** on January 5, 2025, New York started charging a fee to drive into Manhattan at and below 60th Street. The goal is fewer cars, faster traffic, and money for the subway and buses. Uber and Lyft trips into or within the zone pay $1.50 per trip, charged to the rider.
+**Congestion pricing:** on January 5, 2025, New York started tolling most vehicles that enter the part of Manhattan at and below 60th Street, to cut traffic and raise money for the subway and buses. A regular car pays $9 a day at peak times. Uber and Lyft trips are charged differently: $1.50 per trip into or within the zone, collected from the rider.
 
 **Why it matters:** if rides cost more, fewer people might take them and drivers could earn less. If traffic moves faster, drivers might finish more trips per hour and earn more. Nobody knows which happened without looking at the data.
 
