@@ -9,17 +9,26 @@
             trips paid the congestion fee, to confirm the comparison
             group is mostly untouched by the policy.
   Tables:   fact_trip, dim_company, dim_zone
-  Answer:   Uber kept most of the extra zone fare. Compared with other
-            trips, Uber zone fares rose $3.07; drivers got $0.95 of
-            that (31%) and Uber kept $2.12 (69%). Lyft zone fares fell
-            $0.42; driver pay fell $0.64 while Lyft kept $0.23 more.
-            These are raw averages, not adjusted for trip length: Uber
-            zone trips got longer (5.40 to 5.64 miles) and Lyft zone
-            trips got shorter (5.61 to 5.37 miles), which pushes
-            Uber's figures up and Lyft's down. The check shows 97.8%
-            to 99.4% of 2025 zone trips paid the fee and only about 3%
-            of other trips did, so the comparison group is mostly
-            untouched by the policy.
+  Answer:   Uber kept most of the rise in zone fares, but this
+            continued a trend from before the policy. Compared with
+            other trips, Uber zone fares rose $3.07; drivers got $0.95
+            of that (31%) and Uber kept $2.12 (69%). At the same trip
+            distance (notebooks/congestion_test.ipynb) the rise is
+            $2.25, with $0.31 to drivers (about 14%) and $1.95 kept by
+            Uber (about 87%). But the placebo test
+            (notebooks/placebo_test.ipynb) found that from 2023 to
+            2024, before the policy, Uber already kept $2.59 more per
+            zone trip at the same distance, so this split cannot be
+            credited to congestion pricing. Lyft zone fares fell
+            $0.42; driver pay fell $0.64 while Lyft kept $0.23 more
+            (at the same distance: fare $-0.02, driver pay $-0.30,
+            kept +$0.27), and Lyft also had fare and pay trends before
+            the policy. The raw figures are not adjusted for trip
+            length: Uber zone trips got longer (5.40 to 5.64 miles)
+            and Lyft zone trips got shorter (5.61 to 5.37 miles). The
+            check shows 97.8% to 99.4% of 2025 zone trips paid the fee
+            and only about 3% of other trips did, so the comparison
+            group is mostly untouched by the policy.
 */
 
 USE rideshare;
