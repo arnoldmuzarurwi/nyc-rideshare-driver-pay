@@ -7,12 +7,19 @@
             2025, by company. The pay effect is how much more zone
             pay per hour changed than other pay per hour.
   Tables:   fact_trip, dim_company, dim_zone
-  Answer:   Yes, for both companies, and more with Uber. Uber zone pay
-            per hour rose from $60.21 to $64.93 (+$4.72) while other
-            trips rose $1.78, an effect of about $2.94 per hour (5%).
-            Lyft zone pay rose $2.08 vs $1.18 elsewhere, an effect of
-            about $0.89 per hour (1.5%). Pay per hour counts only time
-            with a passenger, not waiting time, so real hourly
+  Answer:   Yes, zone pay per hour rose more than other trips' for
+            both companies, but the size is not a clean estimate.
+            Uber zone pay per hour rose from $60.21 to $64.93 (+$4.72)
+            while other trips rose $1.78, a difference of about $2.94
+            per hour (5%). Lyft zone pay rose $2.08 vs $1.18
+            elsewhere, a difference of about $0.89 per hour (1.5%).
+            The placebo test (notebooks/placebo_test.ipynb) found zone
+            pay per hour was falling relative to other trips from 2023
+            to 2024 (Uber $-1.39, Lyft $-0.58), so the direction
+            changed after the policy; but because the two groups were
+            not moving in step, these 2025 figures are not a clean
+            measure of the policy's effect. Pay per hour counts only
+            time with a passenger, not waiting time, so real hourly
             earnings are lower than these figures.
 */
 
