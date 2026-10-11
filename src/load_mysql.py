@@ -1,18 +1,24 @@
 """
 Load the processed data into the MySQL "rideshare" database.
 
-Fills three tables (created beforehand by sql/01_schema.sql):
-    dim_company  - Uber / Lyft lookup
-    dim_zone     - taxi zone lookup
-    fact_trip    - the six sampled monthly trip files
+Fills these tables (created beforehand by sql/01_schema.sql and sql/11_placebo_table.sql):
+    dim_company    - Uber / Lyft lookup
+    dim_zone       - taxi zone lookup
+    fact_trip      - the six sampled monthly trip files (Feb-Apr 2024 and 2025)
+    fact_trip_2023 - the three Feb-Apr 2023 placebo sample files (same structure as
+                     fact_trip), filled only with --placebo
 
 Password handling: the password is NEVER stored in this file. It is read from
 the MYSQL_PASSWORD line of a .env file in the project root (which is
 gitignored), or, if there is none, asked for when the script runs.
 
 Run from the project root:
-    python3 src/load_mysql.py
+    python3 src/load_mysql.py            # dimensions + 2024/2025 samples -> fact_trip
+    python3 src/load_mysql.py --placebo  # 2023 samples only -> fact_trip_2023
+                                         # (fact_trip and the dimension tables are not touched)
 """
+
+import argparse
 
 import getpass
 import os
@@ -33,6 +39,14 @@ DB_NAME = "rideshare"
 
 BATCH_ROWS = 10_000  # rows sent to MySQL per INSERT batch
 
+# Sample files for each target table. Matching by year keeps the 2023 placebo files
+# out of fact_trip, and the 2024/2025 files out of fact_trip_2023.
+TRIP_FILE_PATTERNS = {
+    "fact_trip": ["fhvhv_sample_2024-*.parquet", "fhvhv_sample_2025-*.parquet"],
+    "fact_trip_2023": ["fhvhv_sample_2023-02.parquet", "fhvhv_sample_2023-03.parquet",
+                       "fhvhv_sample_2023-04.parquet"],
+}
+
 # Sampled file column -> fact_trip column (only the ones whose names differ).
 RENAME = {
     "hvfhs_license_num": "license_num",
@@ -41,7 +55,7 @@ RENAME = {
     "trip_time": "trip_time_sec",
 }
 
-# fact_trip columns to insert, in order (trip_id and is_valid use their defaults).
+# fact_trip / fact_trip_2023 columns to insert, in order (trip_id and is_valid use their defaults).
 FACT_COLUMNS = [
     "license_num", "pickup_datetime", "dropoff_datetime",
     "pu_location_id", "do_location_id", "trip_miles", "trip_time_sec",
@@ -131,18 +145,25 @@ def load_zones(cur):
         rows, "zones")
 
 
-def load_trips(conn, cur):
-    print("fact_trip")
+def load_trips(conn, cur, table: str = "fact_trip"):
+    """Load the sample files for `table` (fact_trip or fact_trip_2023)."""
+    print(table)
     # Guard against loading twice, which would duplicate every trip.
-    cur.execute("SELECT COUNT(*) FROM fact_trip")
+    # (`table` is one of the fixed names in TRIP_FILE_PATTERNS, never user input.)
+    cur.execute(f"SELECT COUNT(*) FROM {table}")
     if cur.fetchone()[0] > 0:
-        sys.exit("fact_trip already has rows; refusing to load again. "
+        sys.exit(f"{table} already has rows; refusing to load again. "
                  "Empty it yourself first if you want a fresh load.")
 
-    placeholders = ", ".join(["%s"] * len(FACT_COLUMNS))
-    sql = f"INSERT INTO fact_trip ({', '.join(FACT_COLUMNS)}) VALUES ({placeholders})"
+    paths = sorted(p for pattern in TRIP_FILE_PATTERNS[table]
+                   for p in PROCESSED_DIR.glob(pattern))
+    if not paths:
+        sys.exit(f"No sample files found in {PROCESSED_DIR} for {table}.")
 
-    for path in sorted(PROCESSED_DIR.glob("fhvhv_sample_*.parquet")):
+    placeholders = ", ".join(["%s"] * len(FACT_COLUMNS))
+    sql = f"INSERT INTO {table} ({', '.join(FACT_COLUMNS)}) VALUES ({placeholders})"
+
+    for path in paths:
         df = pd.read_parquet(path).rename(columns=RENAME)[FACT_COLUMNS]
         insert_batches(cur, sql, to_python_rows(df), path.stem.replace("fhvhv_sample_", ""))
         conn.commit()  # commit per month so a failure keeps completed months
@@ -152,19 +173,26 @@ def load_trips(conn, cur):
 # Main
 # ---------------------------------------------------------------------------
 
-def main():
+def main(placebo: bool = False):
     start = time.time()
     conn = connect()
     try:
         with conn.cursor() as cur:
-            load_company(cur)
-            load_zones(cur)
-            conn.commit()  # dimensions must exist before trips (foreign keys)
-            load_trips(conn, cur)
+            if placebo:
+                # The dimensions are already loaded; leave them (and fact_trip) untouched.
+                load_trips(conn, cur, "fact_trip_2023")
+            else:
+                load_company(cur)
+                load_zones(cur)
+                conn.commit()  # dimensions must exist before trips (foreign keys)
+                load_trips(conn, cur, "fact_trip")
     finally:
         conn.close()
     print(f"Done in {time.time() - start:.0f}s")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--placebo", action="store_true",
+                        help="load only the Feb-Apr 2023 samples into fact_trip_2023")
+    main(placebo=parser.parse_args().placebo)
