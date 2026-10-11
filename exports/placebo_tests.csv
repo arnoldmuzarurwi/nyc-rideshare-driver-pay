@@ -1,0 +1,17 @@
+company,measure,effect,std_error,ci_low,ci_high,p_value
+Lyft,Speed (mph),0.06,0.091,-0.12,0.24,0.5256100439971987
+Lyft,Base fare ($),0.73,0.165,0.41,1.06,9.086666867697445e-06
+Lyft,"Base fare, same distance ($)",0.28,0.096,0.09,0.47,0.0033116307696288328
+Lyft,Driver pay per trip ($),0.85,0.147,0.57,1.14,6.280354927362951e-09
+Lyft,"Driver pay per trip, same distance ($)",0.46,0.077,0.31,0.61,2.4657566284562474e-09
+Lyft,Company kept per trip ($),-0.12,0.058,-0.23,-0.01,0.033737823298044575
+Lyft,"Company kept per trip, same distance ($)",-0.18,0.058,-0.29,-0.06,0.002332335187470432
+Lyft,Driver pay per hour ($),-0.58,0.151,-0.88,-0.28,0.00012069899795885275
+Uber,Speed (mph),0.11,0.052,0.01,0.21,0.037395691569138405
+Uber,Base fare ($),2.78,0.239,2.31,3.25,3.0337720270527187e-31
+Uber,"Base fare, same distance ($)",2.32,0.222,1.89,2.76,1.3852804525829408e-25
+Uber,Driver pay per trip ($),0.1,0.101,-0.09,0.3,0.30620123638646746
+Uber,"Driver pay per trip, same distance ($)",-0.26,0.062,-0.38,-0.14,2.5521804836016445e-05
+Uber,Company kept per trip ($),2.68,0.184,2.32,3.04,4.66614043656996e-48
+Uber,"Company kept per trip, same distance ($)",2.59,0.182,2.23,2.94,8.168680470988825e-46
+Uber,Driver pay per hour ($),-1.39,0.197,-1.78,-1.01,1.7829547152685076e-12
