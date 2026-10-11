@@ -81,3 +81,7 @@ So the faster traffic is the one change the data clearly links to congestion pri
 - **The distance adjustment** assumes each extra mile adds the same amount to the fare.
 - **The zone is built from taxi zones,** whose edges don't follow the 60th Street boundary exactly.
 - **A 2% sample** is accurate for overall averages but noisier for small groups, so zones with under 500 trips are left out of the zone rankings.
+
+## Who did what
+
+I planned the project, ran every query and test, checked and interpreted the results, and committed the analysis myself (24 of the 29 commits before this README). Claude Code, an AI coding assistant, wrote the data pipeline scripts (`src/etl.py` and `src/load_mysql.py`) and set up the folders at my direction; those 5 commits are marked as co-authored by Claude.
