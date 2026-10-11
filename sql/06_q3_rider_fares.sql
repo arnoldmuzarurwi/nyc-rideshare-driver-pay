@@ -7,16 +7,20 @@
             price per mile, so longer trips are not mistaken for
             higher prices.
   Tables:   fact_trip, dim_company, dim_zone
-  Answer:   Uber zone riders did; Lyft zone riders paid about the fee.
-            Uber zone base fares rose $3.07 more than other fares, on
-            top of a $1.49 average fee. Part of that came from longer
-            zone trips (5.40 to 5.64 miles). Holding distance fixed in
-            a regression (notebooks/congestion_test.ipynb), the extra
-            is $2.25, so Uber zone riders paid about $3.74 more per
-            trip, about 2.5 times the fee. Lyft zone fares fell only
-            because zone trips got shorter (5.61 to 5.37 miles); at the
-            same distance the change is zero (p = 0.59), so Lyft zone
-            riders paid about the fee alone.
+  Answer:   Uber zone riders paid more than the fee, but the extra was
+            an existing trend, not the policy. Uber zone base fares
+            rose $3.07 more than other fares, on top of a $1.49
+            average fee. Part of that came from longer zone trips
+            (5.40 to 5.64 miles); holding distance fixed in a
+            regression (notebooks/congestion_test.ipynb), the extra is
+            $2.25. But the placebo test (notebooks/placebo_test.ipynb)
+            found Uber zone fares already rose $2.32 more than other
+            fares from 2023 to 2024, before the policy, so this extra
+            cannot be credited to congestion pricing. The only charge
+            the data clearly ties to the policy is the $1.49 fee. Lyft
+            zone fares fell only because zone trips got shorter (5.61
+            to 5.37 miles); at the same distance the change is zero
+            (p = 0.75), so Lyft zone riders paid about the fee alone.
 */
 
 USE rideshare;
