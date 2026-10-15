@@ -15,7 +15,16 @@
             and year should add up to that row in
             dashboard_before_after_3yr.csv.
   Tables:   fact_trip, fact_trip_2023, dim_company, dim_zone
-  Result:   (fill in after reviewing the result)
+  Result:   36 rows (2 companies, zone vs other, Feb to Apr of 2023,
+            2024 and 2025), months 2 to 4 only. The three monthly trip
+            counts for each company, trip type and year add up exactly
+            to dashboard_before_after_3yr.csv, and zone plus other
+            trips match q1_driver_share.csv for every 2024 and 2025
+            month. Uber zone trips were faster in all three 2025
+            months (14.89 to 15.55 mph) than in any 2023 or 2024 month
+            (14.22 to 14.63). Lyft's 2025 zone speeds (14.39 to 14.73)
+            overlap earlier years; its gain shows only against other
+            Lyft trips, which slowed in 2025.
 */
 
 USE rideshare;
